@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    types: [opened, synchronize]
+    types: [closed, opened, synchronize]
 
 jobs:
   preview:
@@ -22,15 +22,20 @@ jobs:
           node-version: 18.x
           cache: yarn
 
+      - name: dump
+        shell: bash
+        run: |
+          echo "${{ toJSON(github.event) }}"
+
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@kudo/preview-build
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: 📦 Install dependencies
-        run: yarn install
-
+      # - name: 📦 Install dependencies
+      #   run: yarn install
+      # 
       # - name: 🚀 Test fingerprint
       #   id: fingerprint
       #   uses: expo/expo-github-action/fingerprint@kudo/preview-build
@@ -43,7 +48,7 @@ jobs:
       #     DIFF: '${{ steps.fingerprint.outputs.fingerprint-diff }}'
       # 
 
-      - name: 💿 Create preview builds if needed
-        uses: expo/expo-github-action/preview-build@kudo/preview-build
-        with:
-          command: eas build --profile development --platform android
+      # - name: 💿 Create preview builds if needed
+      #   uses: expo/expo-github-action/preview-build@kudo/preview-build
+      #   with:
+      #     command: eas build --profile development --platform android
