@@ -1,0 +1,48 @@
+name: PR Preview - EAS Build 
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
+    permissions:
+      pull-requests: write # Allow comments on PRs
+      actions: write # Allow updating action caches
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
+
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@kudo/preview-build
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: yarn install
+
+      # - name: 🚀 Test fingerprint
+      #   id: fingerprint
+      #   uses: expo/expo-github-action/fingerprint@kudo/preview-build
+
+      # - name: 🚀 Test fingerprint2
+      #   shell: bash
+      #   run: |
+      #     echo "DIFF $DIFF"
+      #   env:
+      #     DIFF: '${{ steps.fingerprint.outputs.fingerprint-diff }}'
+      # 
+
+      - name: 💿 Create preview builds if needed
+        uses: expo/expo-github-action/preview-build@kudo/preview-build
+        with:
+          command: eas build --profile development --platform android
