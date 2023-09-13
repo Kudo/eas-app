@@ -9,7 +9,6 @@ on:
 jobs:
   preview:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
     permissions:
       pull-requests: write # Allow comments on PRs
       actions: write # Allow updating action caches
