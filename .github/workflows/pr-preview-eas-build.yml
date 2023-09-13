@@ -1,6 +1,8 @@
 name: PR Preview - EAS Build 
 
 on:
+  push:
+    branches: [main]
   pull_request:
     types: [opened, synchronize]
 
