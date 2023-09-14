@@ -32,13 +32,17 @@ jobs:
         with:
           script: |
             try {
-              github.rest.issues.removeLabel({
+              await github.rest.issues.removeLabel({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 name: ['Fingerprint:changed']
               })
-            } catch {}
+            } catch (e) {
+              if (e.status != 404) {
+                throw e;
+              }
+            }
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -51,13 +55,17 @@ jobs:
         with:
           script: |
             try {
-              github.rest.issues.removeLabel({
+              await github.rest.issues.removeLabel({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 name: ['Fingerprint:compatible']
               })
-            } catch {}
+            } catch (e) {
+              if (e.status != 404) {
+                throw e;
+              }
+            }
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
