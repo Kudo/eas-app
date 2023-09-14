@@ -31,18 +31,6 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn install
 
-      # - name: 🚀 Test fingerprint
-      #   id: fingerprint
-      #   uses: expo/expo-github-action/fingerprint@kudo/preview-build
-
-      # - name: 🚀 Test fingerprint2
-      #   shell: bash
-      #   run: |
-      #     echo "DIFF $DIFF"
-      #   env:
-      #     DIFF: '${{ steps.fingerprint.outputs.fingerprint-diff }}'
-      # 
-
       - name: 💿 Create preview builds if needed
         uses: expo/expo-github-action/preview-build@kudo/preview-build
         with:

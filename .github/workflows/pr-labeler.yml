@@ -1,0 +1,50 @@
+name: PR labeler
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # Allow comments on PRs
+      actions: write # Allow updating action caches
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
+
+      - name: 📦 Install dependencies
+        run: yarn install
+
+      - name: Check fingerprint
+        id: fingerprint
+        uses: expo/expo-github-action/fingerprint@kudo/preview-build
+
+      - uses: actions/github-script@v6
+        if: ${{ steps.fingerprint.outputs.fingerprint-diff == '[]' }}
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Fingerprint:compatible']
+            })
+
+      - uses: actions/github-script@v6
+        if: ${{ steps.fingerprint.outputs.fingerprint-diff != '[]' }}
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Fingerprint:changed']
+            })
