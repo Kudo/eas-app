@@ -1,11 +1,11 @@
-name: PR labeler
+name: PR Labeler
 
 on:
   pull_request:
     types: [opened, synchronize]
 
 jobs:
-  preview:
+  labeler:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # Allow comments on PRs
@@ -31,6 +31,12 @@ jobs:
         if: ${{ steps.fingerprint.outputs.fingerprint-diff == '[]' }}
         with:
           script: |
+            github.rest.issues.removeLabel({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: ['Fingerprint:changed']
+            })
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -42,6 +48,12 @@ jobs:
         if: ${{ steps.fingerprint.outputs.fingerprint-diff != '[]' }}
         with:
           script: |
+            github.rest.issues.removeLabel({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: ['Fingerprint:compatible']
+            })
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
