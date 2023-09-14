@@ -9,6 +9,7 @@ on:
 jobs:
   fingerprint:
     runs-on: ubuntu-latest
+    concurrency: fingerprint-${{ github.event_name != 'pull_request' && 'main' || github.run_id }}
     permissions:
       pull-requests: write # Allow comments on PRs
       actions: write # Allow updating action caches
