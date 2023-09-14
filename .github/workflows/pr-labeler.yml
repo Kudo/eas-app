@@ -31,12 +31,14 @@ jobs:
         if: ${{ steps.fingerprint.outputs.fingerprint-diff == '[]' }}
         with:
           script: |
-            github.rest.issues.removeLabel({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: ['Fingerprint:changed']
-            })
+            try {
+              github.rest.issues.removeLabel({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: ['Fingerprint:changed']
+              })
+            } catch {}
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -48,12 +50,14 @@ jobs:
         if: ${{ steps.fingerprint.outputs.fingerprint-diff != '[]' }}
         with:
           script: |
-            github.rest.issues.removeLabel({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: ['Fingerprint:compatible']
-            })
+            try {
+              github.rest.issues.removeLabel({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: ['Fingerprint:compatible']
+              })
+            } catch {}
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
