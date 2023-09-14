@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  labeler:
+  fingerprint:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # Allow comments on PRs
