@@ -35,4 +35,4 @@ jobs:
       - name: 💿 Create preview builds if needed
         uses: expo/expo-github-action/preview-build@kudo/preview-build
         with:
-          command: eas build --profile development --platform android
+          command: eas build --profile development --platform all
