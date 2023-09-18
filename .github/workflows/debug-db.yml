@@ -11,6 +11,7 @@ jobs:
         with:
           path: fingerprint-db
           key: fingerprint-db
+          restore-keys: fingerprint-db
 
       - uses: actions/upload-artifact@v3
         with:
