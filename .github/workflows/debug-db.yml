@@ -1,0 +1,18 @@
+name: Upload fingerprint-db to artifacts
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  fingerprint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache/restore@v3
+        with:
+          path: fingerprint-db
+          key: fingerprint-db
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fingerprint-db
+          path: fingerprint-db
