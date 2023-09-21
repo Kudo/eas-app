@@ -24,7 +24,7 @@ jobs:
           cache: yarn
 
       - name: 🏗 Setup EAS
-        uses: expo/expo-github-action@kudo/preview-build
+        uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
@@ -33,6 +33,6 @@ jobs:
         run: yarn install
 
       - name: 💿 Create preview builds if needed
-        uses: expo/expo-github-action/preview-build@kudo/preview-build
+        uses: expo/expo-github-action/preview-build@main
         with:
           command: eas build --profile development --platform all
