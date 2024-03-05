@@ -2,7 +2,7 @@ name: PR Labeler
 
 on:
   push:
-    branches: [main]
+    branches: [release]
   pull_request:
     types: [opened, synchronize]
 
@@ -29,6 +29,8 @@ jobs:
       - name: Check fingerprint
         id: fingerprint
         uses: expo/expo-github-action/fingerprint@main
+        with:
+          saving-db-branch: release
 
       - uses: actions/github-script@v6
         if: ${{ github.event_name == 'pull_request' && steps.fingerprint.outputs.fingerprint-diff == '[]' }}
