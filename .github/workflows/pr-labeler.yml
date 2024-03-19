@@ -3,7 +3,6 @@ name: PR Labeler
 on:
   push:
     branches: [main]
-    tags: ['test-*']
   pull_request:
     types: [opened, synchronize]
 
