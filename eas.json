@@ -19,7 +19,8 @@
       "channel": "preview"
     },
     "production": {
-      "channel": "production"
+      "channel": "production",
+      "withoutCredentials": true
     }
   },
   "submit": {
