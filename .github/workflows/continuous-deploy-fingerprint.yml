@@ -30,13 +30,13 @@ jobs:
         run: yarn install
 
       - name: 🏗 Setup EAS
-        uses: expo/expo-github-action@v8
+        uses: expo/expo-github-action@main
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Continuously Deploy
-        uses: expo/expo-github-action/continuous-deploy-fingerprint@%40kudo/update-packages
+        uses: expo/expo-github-action/continuous-deploy-fingerprint@pr334
         with:
           profile: ${{ github.event_name != 'pull_request' && 'production' || 'development' }}
           branch: ${{ github.event_name != 'pull_request' && 'production' || 'development' }}
