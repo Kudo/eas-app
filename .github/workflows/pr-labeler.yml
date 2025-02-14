@@ -28,7 +28,7 @@ jobs:
 
       - name: Check fingerprint
         id: fingerprint
-        uses: expo/expo-github-action/fingerprint@%40/kudo/update-packages
+        uses: expo/expo-github-action/fingerprint@%40kudo/update-packages
 
       - uses: actions/github-script@v7
         if: ${{ github.event_name == 'pull_request' && steps.fingerprint.outputs.fingerprint-diff == '[]' }}

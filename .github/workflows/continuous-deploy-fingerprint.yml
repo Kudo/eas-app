@@ -36,7 +36,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Continuously Deploy
-        uses: expo/expo-github-action/continuous-deploy-fingerprint@%40/kudo/update-packages
+        uses: expo/expo-github-action/continuous-deploy-fingerprint@%40kudo/update-packages
         with:
           profile: ${{ github.event_name != 'pull_request' && 'production' || 'development' }}
           branch: ${{ github.event_name != 'pull_request' && 'production' || 'development' }}
