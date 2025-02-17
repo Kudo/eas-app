@@ -26,7 +26,7 @@ jobs:
 
       - name: Check fingerprint
         id: fingerprint
-        uses: expo/expo-github-action/fingerprint@pr334
+        uses: expo/expo-github-action/fingerprint@main
 
       - name: fingerprint compatible
         if: ${{ steps.fingerprint.outputs.fingerprint-diff == '[]' }}
