@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  fingerprint:
+  repack-android:
     runs-on: ubuntu-latest
     concurrency: fingerprint-${{ github.event_name != 'pull_request' && 'main' || github.run_id }}
     permissions:
@@ -41,7 +41,7 @@ jobs:
       - name: build
         if: steps.repack_android.fingerprint-hit != true
         run: |
-          npx expo prebuild --android
+          npx expo prebuild -p android
           cd android
           ./gradlew :app:assembleRelease
 
