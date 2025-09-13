@@ -38,16 +38,15 @@ jobs:
           platform: android
           upload-path: app-output
 
-      # - name: build
-      #   if: steps.repack_android.fingerprint-hit != true
-      #   run: |
-      #     npx expo prebuild -p android
-      #     cd android
-      #     ./gradlew :app:assembleRelease
+      - name: build
+        if: steps.repack_android.fingerprint-hit != true
+        run: |
+          npx expo prebuild -p android
+          cd android
+          ./gradlew :app:assembleRelease
 
       - name: prepare build artifact
         if: steps.repack_android.fingerprint-hit != true
-        # cp android/app/build/outputs/apk/release/app-release.apk app-output/app-release.apk
         run: |
           mkdir app-output
-          cp package.json app-output/package.json
+          cp android/app/build/outputs/apk/release/app-release.apk app-output/app-release.apk
