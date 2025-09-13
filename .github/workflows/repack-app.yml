@@ -39,14 +39,14 @@ jobs:
           upload-path: app-output
 
       - name: build
-        if: steps.repack_android.fingerprint-hit != 'true'
+        if: steps.repack_android.outputs.fingerprint-hit != 'true'
         run: |
           npx expo prebuild -p android
           cd android
           ./gradlew :app:assembleRelease
 
       - name: prepare build artifact
-        if: steps.repack_android.fingerprint-hit != 'true'
+        if: steps.repack_android.outputs.fingerprint-hit != 'true'
         run: |
           mkdir app-output
           cp android/app/build/outputs/apk/release/app-release.apk app-output/app-release.apk
