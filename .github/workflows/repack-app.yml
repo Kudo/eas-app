@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: fingerprint-${{ github.event_name != 'pull_request' && 'main' || github.run_id }}
     permissions:
-      actions: read # Allow download artifacts
       actions: write # Allow updating action caches
     steps:
       - name: 🏗 Setup repo
