@@ -1,0 +1,42 @@
+name: Continuous Deploy Fingerprint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+jobs:
+  continuously-deploy:
+    runs-on: ubuntu-latest
+    concurrency: continuous-deploy-fingerprint-${{ github.event_name != 'pull_request' && 'main' || github.run_id }}
+    permissions:
+      contents: read # Allow checkout
+      pull-requests: write # Allow comments on PRs
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: yarn
+
+      - name: 📦 Install dependencies
+        run: yarn install
+
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Continuously Deploy
+        uses: expo/expo-github-action/continuous-deploy-fingerprint@main
+        with:
+          profile: ${{ github.event_name != 'pull_request' && 'production' || 'development' }}
+          branch: ${{ github.event_name != 'pull_request' && 'production' || 'development' }}

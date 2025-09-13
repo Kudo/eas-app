@@ -1,0 +1,38 @@
+name: PR Preview - EAS Build 
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    concurrency: fingerprint-${{ github.event_name != 'pull_request' && 'main' || github.run_id }}
+    permissions:
+      pull-requests: write # Allow comments on PRs
+      actions: write # Allow updating action caches
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: yarn
+
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: yarn install
+
+      - name: 💿 Create preview builds if needed
+        uses: expo/expo-github-action/preview-build@main
+        with:
+          command: eas build --profile development --platform all
