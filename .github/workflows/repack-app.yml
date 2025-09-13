@@ -1,0 +1,52 @@
+name: CI repack 
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  repack-android:
+    runs-on: ubuntu-latest
+    concurrency: fingerprint-${{ github.event_name != 'pull_request' && 'main' || github.run_id }}
+    permissions:
+      actions: write # Allow updating action caches
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: yarn
+
+      - name: 🔨 Use JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 📦 Install dependencies
+        run: yarn install
+
+      - name: repack-android
+        id: repack_android
+        uses: expo/expo-github-action/repack-app@kudo/repack-app
+        with:
+          platform: android
+          upload-path: app-output
+
+      - name: build
+        if: steps.repack_android.outputs.fingerprint-hit != 'true'
+        run: |
+          npx expo prebuild -p android
+          cd android
+          ./gradlew :app:assembleRelease
+
+      - name: prepare build artifact
+        if: steps.repack_android.outputs.fingerprint-hit != 'true'
+        run: |
+          mkdir app-output
+          cp android/app/build/outputs/apk/release/app-release.apk app-output/app-release.apk
