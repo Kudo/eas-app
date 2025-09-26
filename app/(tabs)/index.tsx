@@ -7,9 +7,9 @@ import { Text, View } from '../../components/Themed';
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One23232</Text>
+      <Text style={styles.title}>Tab One with image</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Image source={{ uri: 'https://picsum.photos/id/238/800/800' }} />
+      <Image source={{ uri: 'https://picsum.photos/id/238/800/800' }} width={400} height={400} />
       <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>
   );
