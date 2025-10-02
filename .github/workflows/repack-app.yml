@@ -68,6 +68,8 @@ jobs:
           npx expo prebuild -p android
           cd android
           ./gradlew :app:assembleRelease
+        env:
+          ORG_GRADLE_PROJECT_reactNativeArchitectures: x86_64
 
       - name: Upload artifact (Android)
         id: android-upload-artifact
