@@ -31,22 +31,57 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn install
 
-      - name: repack-android
-        id: repack_android
+      - name: Check fingerprint
+        id: fingerprint
+        uses: expo/expo-github-action/fingerprint@kudo/repack-app
+
+      - name: Query artifact from fingerprint database (Android)
+        id: android-query-artifact
+        if: ${{ steps.fingerprint.outputs.fingerprint-diff == '[]' }}
+        uses: expo/expo-github-action/fingerprint-query-artifact@kudo/repack-app
+        with:
+          fingerprint-hash: ${{ fromJSON(steps.fingerprint.outputs.current-fingerprint).hash }}
+          platform: android
+
+      - name: Download artifact (Android)
+        id: android-download-artifact
+        if: steps.android-query-artifact.outputs.run-id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: android-build
+          path: ${{ runner.temp }}/previous-build
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.android-query-artifact.outputs.run-id }}
+
+      - name: Repack (Android)
+        id: android-repack
+        if: steps.android-download-artifact.outputs.download-path != ''
         uses: expo/expo-github-action/repack-app@kudo/repack-app
         with:
           platform: android
-          upload-path: app-output
+          source-app: ${{ steps.android-download-artifact.outputs.download-path }}
 
-      - name: build
-        if: steps.repack_android.outputs.fingerprint-hit != 'true'
+      - name: Build (Android)
+        id: android-build
+        if: ${{ steps.fingerprint.outputs.fingerprint-diff != '[]' || steps.android-query-artifact.outputs.run-id == '' }}
         run: |
           npx expo prebuild -p android
           cd android
           ./gradlew :app:assembleRelease
 
-      - name: prepare build artifact
-        if: steps.repack_android.outputs.fingerprint-hit != 'true'
-        run: |
-          mkdir app-output
-          cp android/app/build/outputs/apk/release/app-release.apk app-output/app-release.apk
+      - name: Upload artifact (Android)
+        id: android-upload-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build
+          path: ${{ steps.android-repack.outputs.output-path || 'android/app/build/outputs/apk/release/app-release.apk' }}
+
+      - name: Update uploaded artifact for fingerprint (Android)
+        id: android-update-fingerprint
+        uses: expo/expo-github-action/fingerprint-update-artifact@kudo/repack-app
+        with:
+          current-git-commit: ${{ steps.fingerprint.outputs.current-git-commit }}
+          platform: android
+          artifact-id: ${{ steps.android-upload-artifact.outputs.artifact-id }}
+          artifact-url: ${{ steps.android-upload-artifact.outputs.artifact-url }}
+          artifact-digest: ${{ steps.android-upload-artifact.outputs.artifact-digest }}
