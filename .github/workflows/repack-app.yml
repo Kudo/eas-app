@@ -35,6 +35,10 @@ jobs:
         id: fingerprint
         uses: expo/expo-github-action/fingerprint@kudo/repack-app
 
+      - name: Print fingerprint
+        run: |
+          echo "${{ toJSON(steps.fingerprint.outputs.current-fingerprint) }}"
+
       - name: Query artifact from fingerprint database (Android)
         id: android-query-artifact
         if: ${{ steps.fingerprint.outputs.fingerprint-diff == '[]' }}
