@@ -37,7 +37,7 @@ jobs:
 
       - name: Print fingerprint
         run: |
-          echo "${{ toJSON(steps.fingerprint.outputs.current-fingerprint) }}"
+          echo "${{ fromJSON(steps.fingerprint.outputs.current-fingerprint).hash }}"
 
       - name: Query artifact from fingerprint database (Android)
         id: android-query-artifact
