@@ -81,6 +81,7 @@ jobs:
         uses: expo/expo-github-action/fingerprint-update-artifact@kudo/repack-app
         with:
           current-git-commit: ${{ steps.fingerprint.outputs.current-git-commit }}
+          current-fingerprint: ${{ steps.fingerprint.outputs.current-fingerprint }}
           platform: android
           artifact-id: ${{ steps.android-upload-artifact.outputs.artifact-id }}
           artifact-url: ${{ steps.android-upload-artifact.outputs.artifact-url }}
