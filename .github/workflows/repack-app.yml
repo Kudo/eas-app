@@ -33,12 +33,12 @@ jobs:
 
       - name: Check fingerprint
         id: fingerprint
-        uses: expo/actions/fingerprint@main
+        uses: expo/expo-github-actions/fingerprint@kudo/repack-app
 
       - name: Query artifact from fingerprint database (Android)
         id: android-query-artifact
         if: ${{ steps.fingerprint.outputs.fingerprint-diff == '[]' }}
-        uses: expo/actions/fingerprint-query-artifact@main
+        uses: expo/expo-github-actions/fingerprint-query-artifact@kudo/repack-app
         with:
           fingerprint-hash: ${{ steps.fingerprint.outputs.current-fingerprint.hash }}
           platform: android
@@ -56,7 +56,7 @@ jobs:
       - name: Repack (Android)
         id: android-repack
         if: steps.android-download-artifact.outputs.download-path != ''
-        uses: expo/actions/repack-app@main
+        uses: expo/expo-github-actions/repack-app@kudo/repack-app
         with:
           platform: android
           source-app: ${{ steps.android-download-artifact.outputs.download-path }}
@@ -78,7 +78,7 @@ jobs:
 
       - name: Update uploaded artifact for fingerprint (Android)
         id: android-update-fingerprint
-        uses: expo/actions/fingerprint-update-artifact@main
+        uses: expo/expo-github-actions/fingerprint-update-artifact@kudo/repack-app
         with:
           current-git-commit: ${{ steps.fingerprint.outputs.current-git-commit }}
           platform: android
