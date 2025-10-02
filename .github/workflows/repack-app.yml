@@ -40,7 +40,7 @@ jobs:
         if: ${{ steps.fingerprint.outputs.fingerprint-diff == '[]' }}
         uses: expo/expo-github-action/fingerprint-query-artifact@kudo/repack-app
         with:
-          fingerprint-hash: ${{ steps.fingerprint.outputs.current-fingerprint.hash }}
+          fingerprint-hash: ${{ toJSON(steps.fingerprint.outputs.current-fingerprint).hash }}
           platform: android
 
       - name: Download artifact (Android)
