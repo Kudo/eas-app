@@ -3241,11 +3241,6 @@ expo-manifests@~1.0.8:
     "@expo/config" "~12.0.8"
     expo-json-utils "~0.15.0"
 
-expo-maps@~0.12.7:
-  version "0.12.7"
-  resolved "https://registry.yarnpkg.com/expo-maps/-/expo-maps-0.12.7.tgz#f1552e0336d693ce73f0124fd2d9ee2208c7cac1"
-  integrity sha512-u1OjR2PwAsTrM0XXwhdZMOuErxgX5s2V9G/QsOuhboWnO6k6flmiixLJiT2pbh2k+waHS0S/upqI7ZAR9CJwhA==
-
 expo-modules-autolinking@3.0.10:
   version "3.0.10"
   resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-3.0.10.tgz#eed2a9c3d462e6d74021b43597c2044ef45befef"
