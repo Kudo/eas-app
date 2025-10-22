@@ -1,9 +1,11 @@
 {
   "cli": {
+    "appVersionSource": "remote",
     "version": ">= 5.2.0"
   },
   "build": {
     "development": {
+      "environment": "development",
       "developmentClient": true,
       "distribution": "internal",
       "channel": "development",
@@ -15,10 +17,12 @@
       }
     },
     "preview": {
+      "environment": "preview",
       "distribution": "internal",
       "channel": "preview"
     },
     "production": {
+      "environment": "production",
       "channel": "production",
       "withoutCredentials": true
     }

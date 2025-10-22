@@ -17,7 +17,10 @@
     ],
     "ios": {
       "bundleIdentifier": "dev.expo.kudo.easapp",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
