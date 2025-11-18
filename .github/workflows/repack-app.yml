@@ -31,8 +31,7 @@ jobs:
       - name: test
         shell: bash
         run: |
-          export
-          ls $(ANDROID_HOME)/build-tools/36.0.0/dexdump
+          ls /usr/local/lib/android/sdk/build-tools/36.0.0/dexdump
           wget https://github.com/expo/expo-go-releases/releases/download/Expo-Go-54.0.6/Expo-Go-54.0.6.apk
           unzip Expo-Go-54.0.6.apk
-          $(ANDROID_HOME)/build-tools/36.0.0/dexdump classes.dex classes2.dex
+          /usr/local/lib/android/sdk/build-tools/36.0.0/dexdump classes.dex classes2.dex
