@@ -29,7 +29,9 @@ jobs:
           java-version: '17'
 
       - name: test
+        shell: bash
         run: |
+          export
           ls $(ANDROID_HOME)/build-tools/36.0.0/dexdump
           wget https://github.com/expo/expo-go-releases/releases/download/Expo-Go-54.0.6/Expo-Go-54.0.6.apk
           unzip Expo-Go-54.0.6.apk
